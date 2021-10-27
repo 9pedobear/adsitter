@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'djoser',
     'social_django',
     'rest_framework.authtoken',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -155,7 +156,7 @@ LOGOUT_URL = 'logout'
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 }
 

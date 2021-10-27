@@ -9,6 +9,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 @login_required
@@ -62,12 +64,16 @@ class PostCreateView(generics.CreateAPIView):
 class PostListView(generics.ListAPIView):
     serializer_class = PostSerializers
     queryset = Post.objects.all()
-    permission_classes = (IsAdminUser,)
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_fields = ['views', 'likes']
+    search_fields = ['title']
+    ordering_fields = ['views', 'title', 'update_at']
+    # permission_classes = (IsAdminUser,)
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostDetailSerializer
     queryset = Post.objects.all()
-    permission_classes = (IsOwnerOrReadOnly, )
+    # permission_classes = (IsOwnerOrReadOnly, )
 
 def oauth(request):
     return render(request, 'index.html')
